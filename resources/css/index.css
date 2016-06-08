@@ -4,6 +4,7 @@ h1 {
 }
 body {
     margin: 0px;
+	background:black;
 }
 ul {
     margin: 0px;
@@ -43,6 +44,8 @@ ul {
     padding: 30px;
     max-width: 40%;
     float: left;
+	    border-radius: 5px;
+
 }
 .search-results {
     margin-top: -25px;
@@ -55,7 +58,8 @@ ul {
     border: solid 2px grey;
     padding: 30px;
     margin-top: 40px;
-    border-radius: 3px;
+    border-radius: 5px;
+	background:black;
 }
 @media(max-width:940px) {
     #inputdiv {
