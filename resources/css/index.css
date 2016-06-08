@@ -59,7 +59,7 @@ ul {
     padding: 30px;
     margin-top: 40px;
     border-radius: 5px;
-	background:black;
+	background:grey;
 }
 @media(max-width:940px) {
     #inputdiv {
