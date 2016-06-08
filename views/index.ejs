@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="nextMailApp">
+<head>
+	<title>Banks in India</title>
+	<script src="//code.angularjs.org/1.3.0-rc.1/angular.min.js"></script>
+	<script src="/js/index.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+
+</head>
+<body>
+
+<div id="search-form" ng-controller="mainController">
+
+	<div id ="inputdiv">
+		<select  id="bankName"  ng-model="bank_id" ng-change="suggestCities()" >
+			<% for (var key in items) { %>
+				<option  value="<%= items[key].key %>"><%= items[key].value %></option>
+			<% } %>
+		
+		</select>
+		<br>
+		<input  id="cityName" placeholder="Enter City" type="search" ng-model="city" ng-click="suggestCitiesClick()" ng-keyup="suggestCities()" name="city">
+		<div id ="suggestions">
+			<div class="each-suggestion" ng-repeat="cityObj in suggestedCities" ng-click="selectCity($event)" state="{{cityObj.state}}" district="{{cityObj.district}}" city = "{{cityObj.city}}" >{{cityObj.city}}</div>
+		</div>
+	</div>
+	<div class="search-results" >
+		<ul class="each-result" ng-repeat="bObj in branches">
+		<li><b>IFSC :</b> {{bObj.ifsc}}</li>
+		<li><b>ADDRESS :</b>{{bObj.address}}</li>
+		<li><b>BRANCH :</b>{{bObj.branch}}</li>
+		<li><b>BANK NAME :</b>{{bank_name}}</li>
+		<li><b>CITY :</b>{{selectedCity}}</li>
+		</ul>
+	</div>
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+h1 {
+    margin: 50px auto;
+    text-align: center;
+}
+body {
+    margin: 0px;
+}
+ul {
+    margin: 0px;
+    list-style: none;
+}
+#search-form {
+    padding: 40px;
+}
+#suggestions {
+    max-height: 224px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.each-suggestion {
+    border: solid 2px grey;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+}
+.each-suggestion:hover {
+    background-color: grey;
+}
+#bankName {
+    border: solid 2px grey;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+#cityName {
+    margin-top: 25px;
+    border: solid 2px grey;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+}
+#inputdiv {
+    padding: 30px;
+    max-width: 40%;
+    float: left;
+}
+.search-results {
+    margin-top: -25px;
+    float: left;
+    margin-left: 100px;
+    max-width: 40%;
+    overflow-wrap: break-word;
+}
+.each-result {
+    border: solid 2px grey;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 3px;
+}
+@media(max-width:940px) {
+    #inputdiv {
+        padding: 30px;
+        width: 80%;
+        max-width: 100%;
+        margin: 0 auto;
+        float: left;
+    }
+    .search-results {
+        margin-top: 0px;
+        max-width: 100%;
+        margin-left: 0px;
+    }
+    .each-result {
+        padding: 30px;
+    }
+}
