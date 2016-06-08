@@ -49,6 +49,14 @@ nextMailApp.controller('mainController', function($scope, $http, $log) {
 			bank_id: $scope.bank_id,
 			location: $scope.location
 		}).success(function(response) {
+			if(response.length == 0)
+			{
+				$scope.suggestedCities = [];
+				$scope.branches = response;
+				$scope.city = "";
+				return;
+			}	
+			
 			$scope.suggestedCities = [];
 			var sel = document.getElementById('bankName');
 			$scope.bank_name = sel.options[sel.selectedIndex].text;
