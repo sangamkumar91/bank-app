@@ -28,7 +28,7 @@ nextMailApp.controller('mainController', function($scope, $http, $log) {
 			bank_id: $scope.bank_id,
 			city: $scope.city
 		}).success(function(response) {
-			$log.info(response);
+			
 			$scope.suggestedCities = response;
 			$scope.location = null;
 		});
@@ -36,12 +36,8 @@ nextMailApp.controller('mainController', function($scope, $http, $log) {
 	$scope.selectCity = function(el) {
 		if (el != null) {
 			$scope.city = el.target.attributes['city'].value;
-			$scope.state = el.target.attributes['state'].value;
-			$scope.district = el.target.attributes['district'].value;
 			$scope.location = {
 				city: $scope.city,
-				state: $scope.state,
-				district: $scope.district
 			}
 		}
 		var url = "/branches";
@@ -49,6 +45,7 @@ nextMailApp.controller('mainController', function($scope, $http, $log) {
 			bank_id: $scope.bank_id,
 			location: $scope.location
 		}).success(function(response) {
+			
 			if(response.length == 0)
 			{
 				$scope.suggestedCities = [];

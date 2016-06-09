@@ -23,7 +23,7 @@
 		<br>
 		<input  id="cityName" placeholder="Enter City" type="search" ng-model="city" ng-click="suggestCitiesClick()" ng-keyup="suggestCities()" name="city">
 		<div id ="suggestions">
-			<div class="each-suggestion" ng-repeat="cityObj in suggestedCities" ng-click="selectCity($event)" state="{{cityObj.state}}" district="{{cityObj.district}}" city = "{{cityObj.city}}" >{{cityObj.city}}</div>
+			<div class="each-suggestion" ng-repeat="cityObj in suggestedCities" ng-click="selectCity($event)" city = "{{cityObj}}" >{{cityObj}}</div>
 		</div>
 	</div>
 	<div class="search-results" >
@@ -33,6 +33,8 @@
 		<li><b>BRANCH :</b>{{bObj.branch}}</li>
 		<li><b>BANK NAME :</b>{{bank_name}}</li>
 		<li><b>CITY :</b>{{selectedCity}}</li>
+		<li><b>DISTRICT :</b>{{bObj.district}}</li>
+		<li><b>STATE :</b>{{bObj.state}}</li>
 		</ul>
 	</div>
 </div>

@@ -33,7 +33,8 @@ function sortObject(obj) {
 	return arr;
 }
 app.get('/', function(req, res) {
-	
+	var scount = 0;
+	var count = 1;
 	if(listOfBanks === null)
 	{
 		listOfBanks = {};
@@ -45,9 +46,13 @@ app.get('/', function(req, res) {
 			var newBank = new Bank(data);
 			listOfBanks[data['bank_id']] = newBank;
 		} else {
-			listOfBanks[data['bank_id']].addState(data);
+			listOfBanks[data['bank_id']].addCity(data);
 		}
+	
 	}).on("end", function() {
+		
+		
+		
 		sortedlistOfBanks = sortObject(listOfBanks);
 		res.render('index', {
 			items: sortedlistOfBanks
@@ -68,26 +73,17 @@ app.get('/', function(req, res) {
 app.post('/suggestions', function(req, res) {
 	var bankId = req.body.bank_id;
 	var citySearch = req.body.city;
-	var resultArr = {};
+	var resultArr = [];
 	if (listOfBanks.length == 0) {}
 	if (Boolean(bankId)) {
-		var selectedBankstates = listOfBanks[bankId].states;
-		for (var state in selectedBankstates) {
-			var selectedDistricts = selectedBankstates[state].districts;
-			for (var district in selectedDistricts) {
-				var selectedCities = selectedDistricts[district].cities;
+		var selectedCities = listOfBanks[bankId].cities;
 				for (var city in selectedCities) {
-					if (city.toUpperCase().indexOf(citySearch.toUpperCase()) == 0 && !Boolean(resultArr[city.toUpperCase()])) {
-						var cityObj = {
-							state: state,
-							district: district,
-							city: city
-						};
-						resultArr[city.toUpperCase()] = cityObj;
+					if (city.toUpperCase().indexOf(citySearch.toUpperCase()) == 0) {
+						resultArr.push(city);
 					}
 				}
-			}
-		}
+			
+		
 		res.json(resultArr);
 	} else {
 		res.json("Please Select Bank");
@@ -98,7 +94,7 @@ app.post('/branches', function(req, res) {
 	var location = req.body.location;
 	var resultArr = [];
 	try {
-		var selectedBranches = listOfBanks[bankId].states[location.state].districts[location.district].cities[location.city].branches;
+		var selectedBranches = listOfBanks[bankId].cities[location.city].branches;
 	} catch (e) {
 		res.json([]);
 		return;
@@ -107,7 +103,10 @@ app.post('/branches', function(req, res) {
 		var branchObj = {
 			ifsc: branch,
 			branch: selectedBranches[branch].branch,
-			address: selectedBranches[branch].address
+			address: selectedBranches[branch].address,
+			state:selectedBranches[branch].state,
+			district:selectedBranches[branch].district
+			
 		}
 		resultArr.push(branchObj);
 	}
@@ -117,6 +116,8 @@ app.post('/branches', function(req, res) {
 var Branch = function(data) {
 	this.address = data['address'];
 	this.branch = data['branch'];
+	this.district = data['district'];
+	this.state = data['state'];
 }
 var City = function(data) {
 	var self = this;
@@ -129,8 +130,11 @@ var City = function(data) {
 	};
 	self.addBranch(data);
 }
-var District = function(data) {
+var Bank = function(data) {
 	var self = this;
+	self.bank_id = data['bank_id']
+	self.bank_name = data['bank_name'];
+	self.states = [];
 	self.cities = [];
 	self.addCity = function(data) {
 		if (self.cities[data['city']]) {
@@ -144,46 +148,6 @@ var District = function(data) {
 		}
 	};
 	self.addCity(data);
-}
-var State = function(data) {
-	var self = this;
-	self.districts = [];
-	self.addDistrict = function(data) {
-		if (self.districts[data['district']]) {
-			self.districts[data['district']].addCity(data);
-			return self;;
-		} else {
-			District.prototype = self;
-			var newDistrict = new District(data);
-			self.districts[data['district']] = newDistrict;
-			return self.districts[data['district']];
-		}
-	};
-	self.addDistrict(data);
-}
-var Bank = function(data) {
-	var self = this;
-	self.bank_id = data['bank_id']
-	self.bank_name = data['bank_name'];
-	self.states = [];
-	self.addState = function(data) {
-		if (self.states[data['state']]) {
-			self.states[data['state']].addDistrict(data);
-			return self;
-		} else {
-			State.prototype = self;
-			var newState = new State(data);
-			self.states[data['state']] = newState;
-			return self.states[data['state']];
-		}
-	};
-	self.getCities = function() {
-		var cities = [];
-		for (var state in self.states) {
-			for (var district in self.districts) {}
-		}
-	};
-	self.addState(data);
 }
 var listOfBanks = null;
 var sortedlistOfBanks;
