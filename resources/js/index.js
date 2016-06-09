@@ -1,7 +1,16 @@
 var nextMailApp = angular.module('nextMailApp', []);
 nextMailApp.controller('mainController', function($scope, $http, $log) {
 	$scope.city = "";
+	$scope.bank_id = 'Select Bank';
+	
+	try{
 	$scope.bank_id = document.getElementById('bankName').options[0].value;
+	}
+	catch(e)
+	{
+	$scope.bank_id = '';
+	}
+	
 	$scope.suggestedCities = [];
 	$scope.branches = [];
 	$scope.suggestCitiesClick = function() {
